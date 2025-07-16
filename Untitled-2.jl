@@ -16,3 +16,10 @@ using Test
 c = transform(P, exp) # Legendre coefficients
 f = P*c # Legendre expansion
 @test f[0.1] ≈ exp(0.1)
+
+z = 0.1+0.2im
+@test stieltjes(f, z) ≈ quadgk(x -> -exp(x)/(x-z), -1, 1)[1]
+
+g = x -> -exp(x)/(x-z)
+@time quadgk(g, -1, 1)[1]
+@time stieltjes(f, z)
