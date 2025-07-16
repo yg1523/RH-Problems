@@ -57,6 +57,13 @@ f_approx = F[:, 1:N] * truncated_coeffs
 f_approx[1.5]
 f2(1.5)
 
+P = Legendre()                     # Legendre 多项式
+x = ClassicalOrthogonalPolynomials.grid(P, 5)                      # 选择5个格点
+B = P[:, 1:5]                       # 构造 quasimatrix：5个 Legendre 基底在这5点的值
+
+D = ContinuumArrays.Derivative(-1..1)              # 一阶导数算子
+DB = D * B 
+
 
 
 
