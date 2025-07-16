@@ -51,7 +51,58 @@ F = ClassicalOrthogonalPolynomials.Fourier()
 f2(x) = sin(x) + 0.5cos(2x)
 coeffs = expand(F, f2)
 
-N = 20
+N = 200
 truncated_coeffs = coeffs[1:N]
 f_approx = F[:, 1:N] * truncated_coeffs
 f_approx[1.5]
+f2(1.5)
+
+
+
+
+
+
+
+
+#Application of ApproxFun
+using ApproxFun
+F = Fun(x -> x^2, ApproxFun.Chebyshev())
+ApproxFun.coefficients(F)
+ApproxFun.transform(ApproxFun.Chebyshev(), values(F)) ≈ ApproxFun.coefficients(F)
+
+
+
+using ApproxFun
+using SpecialFunctions
+a, b = -20, 10
+d = a..b
+
+x = Fun(d)
+D = ApproxFun.Derivative(d)
+L = D^2 - x
+
+B = Dirichlet(d)
+B_vals = [airyai(a), airyai(b)]
+u = [B; L] \ [B_vals, 0]
+
+import Plots
+Plots.plot(u, xlabel="x", ylabel="u(x)", legend=false)
+
+
+
+
+using ApproxFun
+using LinearAlgebra
+a, b = 0, 2pi
+d = a..b
+D = ApproxFun.Derivative(d)
+L = D^2 + 4
+
+A = [L; ivp()]
+u0 = 0
+dtu0 = 2
+
+u = \(A, [0,u0,dtu0], tolerance=1e-6)
+t = a:0.1:b
+Plots.plot(t, u.(t), xlabel="t", label="u(t)")
+Plots.plot!(t, sin.(2t), label="Analytical", seriestype=:scatter)
