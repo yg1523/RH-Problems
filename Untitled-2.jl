@@ -23,3 +23,25 @@ z = 0.1+0.2im
 g = x -> -exp(x)/(x-z)
 @time quadgk(g, -1, 1)[1]
 @time stieltjes(f, z)
+
+
+
+
+
+
+
+#Application of ContinuumArrays
+basis = Legendre()
+axes(basis, 1)
+
+x = range(-1, 1, 100)
+Q = basis[x, 1:5] #construct a quasimatrix
+f = x -> x^2
+c = Q\f.(x) #coefficient of approximation
+
+f_pred = Q * c  # 逼近值
+f_true = f.(x)
+
+using Plots
+plot(x, f_true, label="True f(x)")
+plot!(x, f_pred, label="Approximation")
