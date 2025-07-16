@@ -45,3 +45,13 @@ f_true = f.(x)
 using Plots
 plot(x, f_true, label="True f(x)")
 plot!(x, f_pred, label="Approximation")
+
+
+F = ClassicalOrthogonalPolynomials.Fourier()
+f2(x) = sin(x) + 0.5cos(2x)
+coeffs = expand(F, f2)
+
+N = 20
+truncated_coeffs = coeffs[1:N]
+f_approx = F[:, 1:N] * truncated_coeffs
+f_approx[1.5]
