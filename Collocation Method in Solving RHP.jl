@@ -57,3 +57,7 @@ end
 jump_condition = Φ⁺ ≈ Φ⁻ * G(s)
 
 
+
+
+
+
